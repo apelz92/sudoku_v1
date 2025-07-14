@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles/style.css">
+  <title>aPelz Landing Page</title>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+  </div>
+  <div class="menu">
+    <div class="menu-item1" onclick="document.location='index.html'">Home</div>
+    <div class="menu-item2" onclick="document.location='news.html'">News</div>
+    <div class="menu-item3">About</div>
+    <div class="menu-item4">
+      <form>
+        <input type="button" class="search" id="search" value="Search">
+        <input type="search" class="search" id="searchfield" name="searchfield" placeholder="">
+      </form>
+    </div>
+  </div>
+  <div class="content">
+    <div class="sudoku">
+      <div class="difficulty">
+        <input type="button" id="baby" value="Baby">
+        <input type="button" id="easy" value="Easy">
+        <input type="button" id="medium" value="Medium">
+        <input type="button" id="hard" value="Hard">
+        <input type="button" id="impossible" value="Impossible">
+      </div>
+      <table id="sudokufield">
+        <tbody id="board">
+        <tr>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo11"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo12"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo13"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo14"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo15"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo16"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo17"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo18"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo19"></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo21"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo22"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo23"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo24"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo25"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo26"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo27"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo28"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo29"></td>
+        </tr>
+        <tr class="horizontalborder">
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo31"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo32"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo33"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo34"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo35"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo36"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo37"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo38"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo39"></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo41"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo42"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo43"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo44"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo45"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo46"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo47"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo48"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo49"></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo51"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo52"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo53"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo54"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo55"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo56"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo57"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo58"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo59"></td>
+        </tr>
+        <tr class="horizontalborder">
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo61"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo62"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo63"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo64"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo65"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo66"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo67"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo68"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo69"></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo71"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo72"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo73"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo74"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo75"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo76"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo77"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo78"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo79"></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo81"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo82"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo83"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo84"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo85"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo86"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo87"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo88"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo89"></td>
+        </tr>
+        <tr>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo91"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo92"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo93"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo94"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo95"></td>
+          <td class="verticalborder"><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo96"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo97"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo98"></td>
+          <td><input type="text" class="square" maxlength="1" min="1" max="9" id="sudo99"></td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="checkSudoku">
+        <div class="switchbox">
+          <label class="switch">
+            <input id="cBox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+          <label for="cBox" class="switch-text">Highlight wrong numbers</label>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="cheat" value="Cheat" disabled></div>
+      <p id="result"></p>
+    </div>
+    <!--<div class="gamelist">
+      <input type="button" id="breakout" value="breakout">
+      <input type="button" id="close" value="close">
+    </div>
+    <br>
+    <canvas id="game" width="480" height="320"></canvas>
+    <br>
+  </div>
+    <div class="sidebar"><ul><li>
+  </ul></div> -->
+    <div class="footer">© 2025</div>
+  </div>
+
+  <script src="sudoku.js"></script>
+</div>
+</body>
+</html>
+
+

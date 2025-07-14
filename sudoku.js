@@ -1,0 +1,397 @@
+/**
+ * @desc basic sudoku script without objects/classes
+ * @class sudoku
+ * @todo rewrite algorithm to search for duplicates searchSudoku()
+ * @todo implement algorithm to solve a given sudoku
+ * @todo improve generation of sudoku to have a unique solution
+ * @todo expand the class with OOP
+ **/
+
+/** 9x9 matrix for the sudoku field
+ * @type {any[]} */
+let numbers = new Array(9);
+for(let i = 0; i < numbers.length; i++) {
+    numbers[i] = new Array(9);
+}
+let found = true;
+let empty = true;
+/*let isUnique = false;*/
+/** array of number keys used for EventListener
+ * @type {string[]} */
+let numberKeys = ["Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9",
+    "Numpad1", "Numpad2", "Numpad3", "Numpad4", "Numpad5", "Numpad6", "Numpad7", "Numpad8", "Numpad9"]
+/** array of arrow keys used for EventListener
+ * @type {string[]} */
+let arrowKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+/** collection of every input element - indexes go from [0] to [80]
+ * @type {HTMLCollectionOf<Element>}
+ */
+let inputs = document.getElementsByClassName("square");
+for (let i = 0; i < inputs.length; i++) {
+    /** single input element of sudoku board
+     * @type {Element} */
+    let inputID = inputs[i];
+    inputID.addEventListener("click", function () {
+        this.select();
+    });
+    inputID.addEventListener("keyup", function (e) {
+        if (!(arrowKeys.includes(e.code) || numberKeys.includes(e.code))) {
+            e.preventDefault();
+        }
+        if (numberKeys.includes(e.code)) {
+            checkSudoku();
+        }
+        /** @desc if arrow key is pressed, get the ID of current input element, slice the number from the id,
+         * @desc add 1 and build another ID string (id = "sudo" + index of matrix + 1 -> "sudo11" is top left input */
+        if (e.code === "ArrowRight") {
+            let str = document.activeElement.getAttribute("id");
+            str = str.slice(-2);
+            str = Number(str) + 1;
+            // if the index is inside the "bounds" of the sudoku, change focus to next element
+            if (!(str % 10 === 0)) {
+                str = "sudo" + str;
+                document.getElementById(str).focus();
+            }
+        }
+        if (e.code === "ArrowLeft") {
+            let str = document.activeElement.getAttribute("id");
+            str = str.slice(-2);
+            str = Number(str) - 1;
+            if (!(str % 10 === 0)) {
+                str = "sudo" + str;
+                document.getElementById(str).focus();
+            }
+        }
+        if (e.code === "ArrowUp") {
+            let str = document.activeElement.getAttribute("id");
+            str = str.slice(-2);
+            str = Number(str) - 10;
+            if (!(str % 10 === 0) && (str >= 11 && str <= 99)) {
+                str = "sudo" + str;
+                document.getElementById(str).focus();
+            }
+        }
+        if (e.code === "ArrowDown") {
+            let str = document.activeElement.getAttribute("id");
+            str = str.slice(-2);
+            str = Number(str) + 10;
+            if (!(str % 10 === 0) && (str >= 11 && str <= 99)) {
+                str = "sudo" + str;
+                document.getElementById(str).focus();
+            }
+        }
+        document.activeElement.select();
+    });
+    inputID.addEventListener("input", function () {
+        result.style.display = "none";
+        result.innerHTML = "";
+    });
+}
+
+let highlightNumbers = document.getElementById("cBox");
+
+let result = document.getElementById("result");
+
+/**
+ * EventListeners for the difficulty buttons -> build sudoku on button click
+ * @func buildSudoku(difficulty)
+ */
+document.getElementById("baby").addEventListener("click", function() { buildSudoku(1); });
+document.getElementById("easy").addEventListener("click", function() { buildSudoku(2); });
+document.getElementById("medium").addEventListener("click", function() { buildSudoku(3); });
+document.getElementById("hard").addEventListener("click", function() { buildSudoku(4); });
+document.getElementById("impossible").addEventListener("click", function() { buildSudoku(5); });
+
+/**
+ * check sudoku when the slider is clicked
+ * @func checkSudoku()
+ */
+highlightNumbers.addEventListener("click", checkSudoku);
+
+/**
+ * cheat (reveal a random number) when clicking on the "Cheat" button
+ * @func cheat()
+ */
+document.getElementById("cheat").addEventListener("click", cheat);
+
+/**
+ * build sudoku using a difficulty parameter. the higher the difficulty, the less numbers are revealed
+ * @param {number} difficulty sets difficulty between 1-5
+ */
+function buildSudoku(difficulty) {
+     console.time("Execution Time");
+    /*do { */
+    // on initialization set all numbers of the board to 0. this is needed to properly search for duplicates
+    for(let i = 0; i < numbers.length; i++) {
+        for(let j = 0; j < numbers[i].length; j++) {
+            numbers[i][j] = 0;
+        }
+    }
+
+    fillGrid(difficulty);
+
+    hideNumbers(difficulty);
+
+    /* missing function to solve the sudoku -> needed to make sure a generated sudoku has a unique solution
+    and to solve a sudoku put in by the user
+    solveSudoku();
+} while(!isUnique); */
+
+    document.getElementById("cheat").disabled = false;
+
+     console.timeEnd("Execution Time");
+}
+
+/**
+ * iterate over the board matrix to check if values of the input fields are identical to the values of the matrix
+ */
+function checkSudoku() {
+    let correct = true;
+    empty = hasEmpty();
+    /** if there are still empty input fields, do not compare values unless the highlight slider is enabled */
+    if(!empty || highlightNumbers.checked) {
+        for(let i = 0; i < numbers.length; i++) {
+            for(let j = 0; j < numbers[i].length; j++) {
+                /** get value of input fields by using Element ID ("sudo" + indexes+1) */
+                let str = "sudo" + (i+1) + (j+1);
+                let inputField = document.getElementById(str);
+                let inputValue = Number(inputField.value);
+                let number = numbers[i][j];
+
+                if (inputValue === 0) { empty = true; }
+
+                if (inputValue !== number && inputValue && highlightNumbers.checked) {
+                    inputField.style.color = "rgb(255, 0, 0)";
+                }
+
+                if (inputValue !== number) {
+                    correct = false;
+                }
+                else {
+                    inputField.style.color = "rgb(0, 0, 0)";
+                }
+            }
+        }
+        /** text shown on result display */
+        if(!empty) {
+            let str;
+            if (correct) {
+                str = "You win!"
+            } else {
+                str = "There are some errors in your solution."
+            }
+            result.style.display = "flex";
+            result.innerHTML = str;
+        }
+    }
+}
+
+/**
+ * reveal a random cell, if it's not empty. retry until empty cell to reveal is found
+ */
+function cheat() {
+    empty = hasEmpty();
+    if(empty) {
+        let cheated = false;
+        while(!cheated) {
+            let index = Math.floor((Math.random()) * 81);
+            if (!(inputs[index].value)) {
+                let input = inputs[index].getAttribute("id");
+                // transform id string into indexes
+                input = input.slice(-2);
+                let i = Math.floor((input / 10) - 1);
+                let j = (input % 10) - 1;
+                inputs[index].value = numbers[i][j];
+                cheated = true;
+            }
+        }
+    }
+    empty = hasEmpty();
+    if(!empty) {
+        checkSudoku();
+    }
+}
+
+/**
+ * hide values of random cells determined by difficulty
+ * @desc (only visible text in input fields is hidden. values in the matrix are still saved)
+ * @param {number} difficulty sets difficulty between 1-5
+ */
+function hideNumbers(difficulty) {
+    let deleteNumber;
+    switch(difficulty) {
+        case 1: deleteNumber = 30; break;
+        case 2: deleteNumber = 40; break;
+        case 3: deleteNumber = 50; break;
+        case 4: deleteNumber = 60; break;
+        case 5: deleteNumber = 70; break;
+    }
+    for(let i = 0; i < deleteNumber; i++) {
+        let index = Math.floor((Math.random()) * 81);
+        if (!(inputs[index].value)) {
+            i--;
+        } else {
+            inputs[index].value = "";
+        }
+    }
+}
+
+/**
+ * brute force method of generating a sudoku board
+ * there are probably more efficients methods
+ * with these parameters, generation of a field takes ~2 ms
+ * @returns {*} recursion when the max amount of tries is reached
+ */
+function fillGrid(difficulty) {
+    /** amount of tries before setting the whole line to 0
+     * @type {number} */
+    let tries = 0;
+    /** amount of times lines have been reset to 0
+     * @type {number} */
+    let fail = 0;
+    for(let i = 0; i < numbers.length; i++) {
+        for(let j = 0; j < numbers[i].length; j++) {
+            do {
+                if(fail > 100) {
+                    return buildSudoku(difficulty);
+                }
+                if(tries > 100) {
+                    for (j = 0; j < numbers[i].length; j++) {
+                        numbers[i][j] = 0;
+                    }
+                    j = 0;
+                    tries = 0;
+                    fail++;
+                }
+                numbers[i][j] = Math.floor(Math.random() * 9 + 1);
+                found = searchSudoku(i, j, numbers[i][j]);
+                tries++;
+            } while(found)
+            let str = "sudo" + (i + 1) + (j + 1);
+            document.getElementById(str).style.color = "rgb(0, 0, 0)";
+            document.getElementById(str).value = numbers[i][j];
+            tries = 0;
+        }
+    }
+}
+
+/**
+ * searches the board for duplicates
+ * @param i line
+ * @param j column
+ * @param number number to be searched for duplicates
+ * @returns {boolean} true - if duplicate has been found
+ */
+function searchSudoku(i, j, number) {
+    if (i === 0 && j === 0) { return false; }
+    for(let n = 0; n < numbers.length; n++) {
+        if(n === j) { continue; }
+        if (number === numbers[i][n]) {
+            return true;
+        }
+    }
+    for(let m = 0; m < numbers.length; m++) {
+        if(m === i) { continue; }
+        if (number === numbers[m][j]) {
+            return true;
+        }
+    }
+    if (i >= 0 && i <= 2) {
+        for(let m = 0; m < 3; m++) {
+            if (j >= 0 && j <= 2) {
+                for(let n = 0; n < 3; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+            if (j >= 3 && j <= 5) {
+                for(let n = 3; n < 6; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+            if (j >= 6 && j <= 9) {
+                for(let n = 6; n < 9; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    if (i >= 3 && i <= 5) {
+        for(let m = 3; m < 6; m++) {
+            if (j >= 0 && j <= 2) {
+                for(let n = 0; n < 3; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+            if (j >= 3 && j <= 5) {
+                for(let n = 3; n < 6; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+            if (j >= 6 && j <= 9) {
+                for(let n = 6; n < 9; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    if (i >= 6 && i <= 8) {
+        for(let m = 6; m < 9; m++) {
+            if (j >= 0 && j <= 2) {
+                for(let n = 0; n < 3; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+            if (j >= 3 && j <= 5) {
+                for(let n = 3; n < 6; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+            if (j >= 6 && j <= 8) {
+                for(let n = 6; n < 9; n++) {
+                    if (m === i && n === j) { continue; }
+                    if (number === numbers[m][n]) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * checks for empty values in the input elements
+ * @returns {boolean} true - if there are empty elements
+ */
+function hasEmpty() {
+    for(let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value === "") {
+            return true;
+        }
+    }
+    return false;
+}
